@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Menu & Happy Hour – Chennai Kings, Fisherman's Wharf SF</title>
+<meta name="description" content="Dosas, uthappam, idly, kothu parotta, Chettinad curries, seafood, beer & wine and daily happy hour at Chennai Kings, San Francisco.">
+<meta name="theme-color" content="#0a1a4a">
+<link rel="icon" href="assets/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="menu">
+<a href="#main" style="position:absolute;left:-999px" onfocus="this.style.left='8px'">Skip to content</a>
+<header id="site-header"></header>
+<main id="main">
+<section class="hero small" style="background-image:url('assets/14_Other_Restaurant_Photos/group-dinner.jpg')">
+  <div class="wrap">
+    
+    <p class="eyebrow" style="color:var(--gold)">Food & drinks</p>
+    <h1>Chennai on a plate</h1>
+    <p>Dosas, curries, seafood and street-food favourites from Tamil Nadu. Happy hour every day.</p>
+    <div class="cta"><a class="btn btn-gold" href="tel:+14155290934">Reserve a table</a></div>
+  </div>
+</section>
+<div class="menu-bar"><div class="wrap">
+  <div class="menu-tabs" id="menu-tabs"></div>
+  <input class="menu-search" id="menu-search" type="search" placeholder="Search dishes, e.g. dosa, paneer, crab…" aria-label="Search menu">
+  <div class="jump" id="menu-jump"></div>
+</div></div>
+<div class="wrap" style="padding-bottom:40px">
+  <p class="legend" style="margin-top:18px"><i class="veg"></i> Vegetarian · Prices subject to change · Please tell us about any allergies.</p>
+  <div id="menu-root"></div>
+  <p id="menu-empty" class="lead" hidden>No dishes match your search.</p>
+</div>
+</main>
+<footer id="site-footer"></footer>
+<script src="js/data.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
