@@ -41,7 +41,7 @@
       ? `<a class="btn btn-ghost" href="${SITE.orderUrl}" target="_blank" rel="noopener">Order online</a>` : "";
     $("#site-header").innerHTML = `
       <div class="bar wrap">
-        <a class="brand" href="index.html"><img src="assets/logo.png" alt="" width="44" height="44"><span>Chennai Kings<small>${SITE.area} · SF</small></span></a>
+        <a class="brand" href="index.html"><img src="assets/logo-icon.png" alt="" width="44" height="44"><span>Chennai Kings<small>${SITE.area} · SF</small></span></a>
         <nav id="nav" aria-label="Main">${nav}</nav>
         <div class="bar-actions">${reserve}<a class="btn btn-gold" href="tel:${SITE.phoneTel}">Reserve a table</a>
         <button class="burger" aria-label="Menu" aria-expanded="false" aria-controls="nav"><span></span></button></div>
@@ -262,8 +262,66 @@
     map() { $$("[data-map]").forEach(el => el.innerHTML = `<iframe title="Map to Chennai Kings" src="${SITE.mapsEmbed}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>`); }
   };
 
+  /* ---------- Motion ---------- */
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function embers() {
+    $$("[data-embers], .hero").forEach(host => {
+      const box = document.createElement("div"); box.className = "embers"; box.setAttribute("aria-hidden", "true");
+      const n = host.classList.contains("hero") ? 14 : 26;
+      box.innerHTML = Array.from({ length: n }, () => {
+        const r = Math.random;
+        return `<i style="--x:${(r() * 100).toFixed(1)}%;--s:${(3 + r() * 6).toFixed(1)}px;--d:${(9 + r() * 12).toFixed(1)}s;--delay:${(-r() * 20).toFixed(1)}s;--dx:${((r() - .5) * 140).toFixed(0)}px"></i>`;
+      }).join("");
+      host.prepend(box);
+    });
+  }
+
+  function countUp() {
+    if (reduce) return;
+    $$("[data-stats] b").forEach(b => {
+      const m = b.textContent.match(/^(\d+)(.*)$/); if (!m) return;
+      const to = +m[1], suffix = m[2]; b.textContent = "0" + suffix;
+      new IntersectionObserver((es, o) => es.forEach(e => {
+        if (!e.isIntersecting) return; o.disconnect();
+        const t0 = performance.now();
+        (function tick(t) { const k = Math.min(1, (t - t0) / 1400); b.textContent = Math.round(to * (1 - Math.pow(1 - k, 3))) + suffix; if (k < 1) requestAnimationFrame(tick); })(t0);
+      }), { threshold: .6 }).observe(b);
+    });
+  }
+
+  function reveal() {
+    if (reduce || !("IntersectionObserver" in window)) return;
+    document.documentElement.classList.add("js");
+    const sel = ".sec-head, .card, .icon-card, .pkg, .cal-row, .feature > div, .stats .wrap > div, .panel, .map, .strip > *, .info-grid > *";
+    const els = $$(sel, $("main")).filter(e => !e.closest(".hero, .hero-home"));
+    const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { threshold: .12, rootMargin: "0px 0px -6% 0px" });
+    els.forEach(el => {
+      el.classList.add("reveal");
+      el.style.setProperty("--rd", Math.min([...el.parentElement.children].indexOf(el), 5) * 90 + "ms");
+      io.observe(el);
+    });
+  }
+
+  function chromeScroll() {
+    const h = $("#site-header"), f = () => h.classList.toggle("scrolled", scrollY > 24);
+    f(); addEventListener("scroll", f, { passive: true });
+  }
+
+  function logoTilt() {
+    const wrap = $(".hh-logo"); if (!wrap || reduce || !matchMedia("(hover: hover)").matches) return;
+    const img = $("img", wrap), hero = $(".hero-home");
+    hero.addEventListener("pointermove", e => {
+      const r = wrap.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
+      wrap.classList.add("tilting");
+      img.style.transform = `rotateY(${(x * 14).toFixed(1)}deg) rotateX(${(-y * 14).toFixed(1)}deg)`;
+    });
+    hero.addEventListener("pointerleave", () => { wrap.classList.remove("tilting"); img.style.transform = ""; });
+  }
+
   buildChrome();
   buildInquiry();
   Object.values(R).forEach(fn => fn());
+  chromeScroll(); if (!reduce) embers(); countUp(); reveal(); logoTilt();
   setInterval(R.status, 60000);
 })();
