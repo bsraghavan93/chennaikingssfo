@@ -319,9 +319,23 @@
     hero.addEventListener("pointerleave", () => { wrap.classList.remove("tilting"); img.style.transform = ""; });
   }
 
+  /* home hero video: reveal the copy when the camera pulls back (~4.4s) */
+  function heroVideo() {
+    const hero = $(".hero-home"), v = hero && $("video", hero); if (!hero) return;
+    let done = false;
+    const show = () => { if (done) return; done = true; hero.classList.add("revealed"); };
+    if (!v || reduce) { if (v) { v.removeAttribute("autoplay"); v.pause(); } return show(); }
+    const AT = 4.4;
+    v.addEventListener("timeupdate", () => { if (v.currentTime >= AT) show(); });
+    // only the last <source> failing means no video at all (skipped media-query sources also fire "error")
+    const last = $$("source", v).pop(); (last || v).addEventListener("error", show);
+    const p = v.play(); if (p && p.catch) p.catch(show);   // autoplay blocked (e.g. low-power mode): show copy over the poster
+    setTimeout(show, 7000);                                 // safety net for slow networks
+  }
+
   buildChrome();
   buildInquiry();
   Object.values(R).forEach(fn => fn());
-  chromeScroll(); if (!reduce) embers(); countUp(); reveal(); logoTilt();
+  chromeScroll(); if (!reduce) embers(); countUp(); reveal(); logoTilt(); heroVideo();
   setInterval(R.status, 60000);
 })();

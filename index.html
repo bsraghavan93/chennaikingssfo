@@ -10,13 +10,20 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap">
 <link rel="stylesheet" href="css/style.css">
+<link rel="preload" as="image" href="assets/hero/hero-poster.jpg">
+<script>document.documentElement.classList.add("hv")</script>
 </head>
 <body data-page="home">
 <a href="#main" style="position:absolute;left:-999px" onfocus="this.style.left='8px'">Skip to content</a>
 <header id="site-header"></header>
 <main id="main">
 <section class="hero-home">
-  <div class="hh-bg"></div><div class="embers" data-embers aria-hidden="true"></div>
+  <div class="hh-video" aria-hidden="true">
+    <video autoplay muted loop playsinline preload="auto" poster="assets/hero/hero-poster.jpg" disablepictureinpicture>
+      <source src="assets/hero/hero-cricket-sm.mp4" type="video/mp4" media="(max-width: 767px)">
+      <source src="assets/hero/hero-cricket.mp4" type="video/mp4">
+    </video>
+  </div>
   <div class="wrap hh-grid">
     <div class="hh-copy">
       <p class="status" data-open-status></p>
@@ -25,9 +32,6 @@
       <p>Authentic Chennai food, live music, cricket on the big screen and a party hall for 50–250 guests. We also cater your event, from 15 to 800+ people.</p>
       <div class="cta"><a class="btn btn-gold" href="tel:+14155290934">Reserve a table</a><a class="btn btn-ghost" href="menu.html">See the menu</a><a class="btn btn-ghost" href="catering.html">Catering</a></div>
       <ul class="facts"><li>🏏 Cricket on the big screen</li><li>🎶 Live music &amp; karaoke</li><li>🥞 Live dosa stations</li><li>🎉 Parties for 50–250</li></ul>
-    </div>
-    <div class="hh-logo"><div class="halo"></div>
-      <img src="assets/logo-hero.jpg" width="900" height="900" fetchpriority="high" alt="Chennai Kings logo: South Indian and Chennai food at SFO Fisherman's Wharf, with dosa, idly, vada, beer and wine in front of the Golden Gate Bridge">
     </div>
   </div>
   <span class="scroll-cue" aria-hidden="true"></span>
